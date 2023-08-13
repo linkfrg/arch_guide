@@ -1,4 +1,4 @@
-# Arch Linux install guide by linkfrg for UEFI systems, zram, btrfs
+# Arch Linux installation guide by linkfrg for UEFI systems, zram, btrfs
 
 # Connecting to the internet
 ### NOTE: If you have wired connection you can skip this stage
@@ -189,4 +189,40 @@ fs-type = swap
 
 ```
 reboot
+```
+
+## Enable wayland on nvidia
+### grub
+```sudo nano /etc/default/grub```
+add ```nvidia_drm.modeset=1``` in ```GRUB_CMDLINE_LINUX_DEFAULT```
+### initramfs
+```sudo nano /etc/mkinitcpio.conf```
+add ```nvidia nvidia_modeset nvidia_uvm nvidia_drm``` in ```MODULES=()```
+### yes
+```sudo grub-mkconfig -o /boot/grub/grub.cfg```
+```sudo mkinitcpio -p linux```
+### for suspend mode
+```sudo nano /etc/modprobe.d/nvidia-power-management.conf```
+```options nvidia NVreg_PreserveVideoMemoryAllocations=1```
+```sudo systemctl enable nvidia-suspend.service```
+
+### pacman hook
+```mkdir /etc/pacman.d/hooks```
+```sudo nano /etc/pacman.d/hooks/nvidia.hook```
+```
+[Trigger]
+Operation=Install
+Operation=Upgrade
+Operation=Remove
+Type=Package
+Target=nvidia-dkms
+Target=linux
+# Change the linux part above and in the Exec line if a different kernel is used
+
+[Action]
+Description=Update NVIDIA module in initcpio
+Depends=mkinitcpio
+When=PostTransaction
+NeedsTargets
+Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
 ```
