@@ -78,7 +78,7 @@ mount /dev/sda1 /mnt/boot/efi
 
 # Installation
 ```
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers intel-ucode(for amd: amd-ucode) btrfs-progs(for btrfs) man nano network-manager grub efibootmgr
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers intel-ucode(for amd: amd-ucode) btrfs-progs man nano network-manager grub efibootmgr
 ```
 
 # Configure the system
@@ -114,17 +114,23 @@ locale-gen
 ### Set the LANG variable to your locale
 ```
 nano /etc/locale.conf
+```
+```
 LANG=en_US.UTF-8
 ```
 ### if you use russian or any other cyrillic locale set font cyr-sun16 in tty
 ```
 nano /etc/vconsole.conf
+```
+```
 FONT=cyr-sun16
 ```
 
 ## Network configuration
 ```
 nano /etc/hostname
+```
+```
 archlinux
 ```
 ```
