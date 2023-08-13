@@ -193,22 +193,40 @@ reboot
 
 ## Enable wayland on nvidia
 ### grub
-```sudo nano /etc/default/grub```
+```
+sudo nano /etc/default/grub
+```
 add ```nvidia_drm.modeset=1``` in ```GRUB_CMDLINE_LINUX_DEFAULT```
 ### initramfs
-```sudo nano /etc/mkinitcpio.conf```
+```
+sudo nano /etc/mkinitcpio.conf
+```
 add ```nvidia nvidia_modeset nvidia_uvm nvidia_drm``` in ```MODULES=()```
-### yes
-```sudo grub-mkconfig -o /boot/grub/grub.cfg```
-```sudo mkinitcpio -p linux```
+### generate
+```
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+```
+sudo mkinitcpio -p linux
+```
 ### for suspend mode
-```sudo nano /etc/modprobe.d/nvidia-power-management.conf```
-```options nvidia NVreg_PreserveVideoMemoryAllocations=1```
-```sudo systemctl enable nvidia-suspend.service```
+```
+sudo nano /etc/modprobe.d/nvidia-power-management.conf
+```
+```
+options nvidia NVreg_PreserveVideoMemoryAllocations=1
+```
+```
+sudo systemctl enable nvidia-suspend.service
+```
 
 ### pacman hook
-```mkdir /etc/pacman.d/hooks```
-```sudo nano /etc/pacman.d/hooks/nvidia.hook```
+```
+mkdir /etc/pacman.d/hooks
+```
+```
+sudo nano /etc/pacman.d/hooks/nvidia.hook
+```
 ```
 [Trigger]
 Operation=Install
