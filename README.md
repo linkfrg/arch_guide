@@ -6,10 +6,9 @@
 ```
 iwctl
 device list # This command will show all your wireless device names
-
 ```
 ```
-station device scan    # where device is your wireless device name
+station device scan            # where device is your wireless device name
 station device get-networks    # this will show all wifi networks
 station device connect SSID    # There SSID is wifi network name, NOTE: If it have spaces put name in "", like "My home network"
 ```
