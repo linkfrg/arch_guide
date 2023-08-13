@@ -5,11 +5,11 @@
 ## Connecting to Wi-FI
 ```
 iwctl
-device list # This command will show all your wireless device names
+device list
 ```
 ```
 station device scan            # where device is your wireless device name
-station device get-networks    # this will show all wifi networks
+station device get-networks
 station device connect SSID    # There SSID is wifi network name, NOTE: If it have spaces put name in "", like "My home network"
 ```
 ### Now check connection
@@ -21,10 +21,10 @@ ping google.com
 
 ## NOTE: replace /dev/sda by your disk
 ### Scheme 
-| Partition | Mount point          | Size            | Type             |
-| --------- | -------------------- | --------------- | ---------------- |
-| /dev/sda1 | /boot/efi(in chroot) | at least 100 mb | EFI system       |
-| /dev/sda2 | /mnt                 | Remainder       | Linux filesystem |
+| Partition | Mount point   | Size            | Type             |
+| --------- | ------------- | --------------- | ---------------- |
+| /dev/sda1 | /mnt/boot/efi | at least 100 mb | EFI system       |
+| /dev/sda2 | /mnt          | Remainder       | Linux filesystem |
 
 ```
 cfdisk /dev/sda
@@ -46,10 +46,6 @@ mount /dev/sda2 /mnt
 ```
 btrfs su cr /mnt/@
 btrfs su cr /mnt/@home
-btrfs su cr /mnt/@log
-btrfs su cr /mnt/@pkg
-btrfs su cr /mnt/@.snapshots
-btrfs su li /mnt
 ```
 
 ```
@@ -59,16 +55,7 @@ mount -o defaults,noatime,compress=zstd,subvol=@ /dev/sda3 /mnt
 
 ```
 mkdir /mnt/home
-mkdir /mnt/.snapshots
-mkdir -p /mnt/var/log
-mkdir -p /mnt/var/cache/pacman/pkg
-```
-
-```
 mount -o defaults,noatime,compress=zstd,subvol=@home /dev/sda3 /mnt/home
-mount -o defaults,noatime,compress=zstd,subvol=@log /dev/sda3 /mnt/var/log
-mount -o defaults,noatime,compress=zstd,subvol=@pkg /dev/sda3 /mnt/var/cache/pacman/pkg
-mount -o defaults,noatime,compress=zstd,subvol=@.snapshots /dev/sda3 /mnt/.snapshots
 ```
 
 ```
@@ -78,7 +65,7 @@ mount /dev/sda1 /mnt/boot/efi
 
 # Installation
 ```
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers intel-ucode(for amd: amd-ucode) btrfs-progs man nano network-manager grub efibootmgr
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers intel-ucode(for amd: amd-ucode) btrfs-progs man nano networkmanager grub efibootmgr
 ```
 
 # Configure the system
