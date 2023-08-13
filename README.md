@@ -154,3 +154,39 @@ exit
 umount -R /mnt
 reboot
 ```
+
+# After installation
+## enable zram
+### Firstly, disable zswap
+#### Add ```zswap.enabled=0``` in ```/etc/default/grub```
+```
+sudo nano /etc/default/grub
+```
+
+```
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet zswap.enabled=0"
+```
+
+```
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+### zram-generator
+```
+sudo pacman -S zram-generator
+```
+
+```
+sudo nano /etc/systemd/zram-generator.conf
+```
+
+```
+[zram0]
+zram-size = ram
+compression-algorithm = zstd
+swap-priority = 100
+fs-type = swap
+```
+
+```
+reboot
+```
